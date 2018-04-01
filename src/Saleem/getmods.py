@@ -1,5 +1,5 @@
 '''
-Get the about.json for each subreddit
+Get the moderators.json for each subreddit
 '''
 
 import os
@@ -25,13 +25,13 @@ def get_about(sub_name, team_name):
     print team_name
     team_dir = team_name.replace(" ", "_")
     team_path = os.path.join(data_dir, team_dir)
-    url = "http://www.reddit.com/r/{}/about.json".format(sub_name)
+    url = "http://www.reddit.com/r/{}/about/moderators.json".format(sub_name)
     resp = requests.get(url, headers=headers)
     if not resp.ok:
         # handle request error, return -1?
         return -1
     content = resp.json()
-    file_name = 'about.json'
+    file_name = 'moderators.json'
     file_path = os.path.join(team_path, file_name)
     with open(file_path, 'w') as fp:
         json.dump(content, fp)
