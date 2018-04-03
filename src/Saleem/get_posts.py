@@ -9,7 +9,6 @@ Gather posts that belong to the NHL subreddits
 import os
 import time
 import json
-import multiprocessing
 from pprint import pprint
 
 
@@ -41,19 +40,12 @@ def get_subs(file_name):
 
     out_file_name = file_name
     out_file_path = os.path.join(out_path, out_file_name)
+    print 'Writing'
     with open(out_file_path, 'w') as fp:
         for line in to_write:
             fp.write(line)
     return
 
 
-#Multiprocessing Pool
-
-def mp_sampler():
-    p = multiprocessing.Pool(17)
-    p.map(get_subs, all_files)
-
-#Run it
-
-if __name__ == '__main__':
-    mp_sampler()
+for file_name in all_files:
+    get_subs(file_name)
