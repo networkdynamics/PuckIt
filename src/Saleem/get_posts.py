@@ -34,9 +34,12 @@ def get_subs(file_name):
     to_write = []
     for line in all_lines:
         jobj = json.loads(line)
-        sub = jobj['subreddit']
-        if sub in all_subs:
-            to_write.append(line)
+        try:
+            sub = jobj['subreddit']
+            if sub in all_subs:
+                to_write.append(line)
+        except KeyError:
+            continue
 
     out_file_name = file_name
     out_file_path = os.path.join(out_path, out_file_name)
