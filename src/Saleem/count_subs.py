@@ -5,30 +5,31 @@ extract the subscriber count for each sub
 
 import os
 import time
-import requests
 import json
 
-headers = {"User-Agent": "lets get these pages"}
 
-teampath = '/home/ndg/users/hsalee/PuckIt/resources/nhl_teams.txt'
-data_dir = '/home/ndg/projects/shared_datasets/PuckIt/data'
+data_dir = '/home/ndg/projects/shared_datasets/PuckIt/FACITdata'
 
 
-with open(teampath, 'r') as fin:
-    all_teams = fin.readlines()
-all_teams = [x.strip() for x in all_teams]
+all_subs = os.listdir(data_dir)
+all_subs = sorted(all_subs, key=lambda s: s.lower())
 
-def get_about(team_name):
-    team_dir = team_name.replace(" ", "_")
-    team_path = os.path.join(data_dir, team_dir)
-    file_name = 'about.json'
-    file_path = os.path.join(team_path, file_name)
+def get_about(file_name):
+    file_path = os.path.join(data_dir, file_name)
     with open(file_path, 'r') as fp:
         content = json.load(fp)
-    print content['data']['subscribers']
-    return
+    a = content['data']['subscribers']
+    if a :
+        return a
+    else:
+        return 0
 
 
 
-for team in all_teams:
-    get_about(team)
+z = []
+for sub in all_subs:
+    z.append(get_about(sub))
+
+z = sorted(z)
+for item in z:
+    print item
