@@ -6,7 +6,7 @@ extract the subscriber count for each sub
 import os
 import time
 import json
-
+from numpy import median
 
 data_dir = '/home/ndg/projects/shared_datasets/PuckIt/FACITdata'
 
@@ -24,12 +24,26 @@ def get_about(file_name):
     else:
         return 0
 
+defaults = '/home/ndg/users/hsalee/PuckIt/resources/default_subs.txt'
 
+with open(defaults, 'r') as fin:
+    all_defaults = fin.readlines()
 
-z = []
+all_defaults = [x.strip() for x in all_defaults]
+
+sub_count = {}
 for sub in all_subs:
-    z.append(get_about(sub))
+    sub_count[sub] = get_about(sub)
 
-z = sorted(z)
-for item in z:
+
+med = median(sub_count.values())
+
+subs = []
+
+for sub in all_subs:
+    if sub not in all_defaults:
+        if sub_count[sub] > med:
+            subs.append(sub)
+
+for item in subs:
     print item
