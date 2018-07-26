@@ -43,9 +43,7 @@ def construct_edgelist(sub_dir):
 
 def construct_networkx_graph(sub_dir):
     edgelist_file = sub_dir + "edgelist.txt"
-
     G = nx.read_edgelist(edgelist_file, delimiter=",", create_using=nx.DiGraph(), data=(('weight',int),))
-
     return G
 
 def get_clustering_coefficient(G):
@@ -57,17 +55,14 @@ def get_assortativity_coef(G):
     return nx.degree_assortativity_coefficient(G, x='in', y='out', weight='weight')
 
 def get_attribute_coef(G):
-    print "attribute:"
     return nx.attribute_assortativity_coefficient(G, 'weight')
 
 def get_p_corr_coef(G):
     return nx.degree_pearson_correlation_coefficient(G, x='in', y='out', weight='weight')
 
-
 def get_neighbour_degree(G):
     return nx.average_neighbor_degree(G, source='in', target='out', weight='weight')
 
-#need to turn the graph undirected
 def get_comm(G):
     GU = G.to_undirected()
     return nx.communicability(GU)
@@ -91,7 +86,7 @@ def get_is_strongly_connected(G):
     return nx.is_strongly_connected(G)
 
 def get_number_strongly_connected_components(G):
-    return nx.is_strongly_connected(G)
+    return nx.number_strongly_connected_components(G)
 
 def get_is_weakly_connected(G):
     return nx.is_weakly_connected(G)
@@ -112,6 +107,16 @@ def get_number_connected_components(G):
 sub_dir = sys.argv[1]
 
 #construct_edgelist(sub_dir)
+
+func_list = [get_clustering_coefficient, get_assortativity_coef, get_p_corr_coef, get_clique_size, get_number_of_cliques, get_transitivity, get_is_strongly_connected, get_is_weakly_connected, get_number_strongly_connected_components, get_number_weakly_connected_components]
+for func in func_list:
+    try:
+        res = func(G)
+        print [subreddit, func.__name__, res].join(", ")
+    except:
+        print "could not compute ", func.__name__
+
+
 G = construct_networkx_graph(sub_dir)
 #print "subreddit", "clustering", "assortativity", "pearson_corr_coef", "clique_size", "number_of_cliques", "transitivity", "is_strongly_connected", "is_weakly_connected", "number_strong_comp", "number_weak_comp"
 #print sub_dir.split("/")[-2], get_clustering_coefficient(G), get_assortativity_coef(G), get_p_corr_coef(G), get_clique_size(G), get_number_of_cliques(G), get_transitivity(G), get_is_strongly_connected(G), get_is_weakly_connected(G), get_number_strongly_connected_components(G), get_number_weakly_connected_components(G)
