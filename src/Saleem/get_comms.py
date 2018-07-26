@@ -2,7 +2,7 @@
 @uthor: Saleem
 Date: April 2, 2018
 
-Gather comments that belong to the NHL subreddits
+Gather comments that belong to subreddits
 '''
 
 #Imports
@@ -14,10 +14,10 @@ import multiprocessing
 from pprint import pprint
 
 
-out_path = '/home/ndg/users/hsalee/PuckIt/temp'
+out_path = '/home/ndg/projects/shared_datasets/PuckIt/sample2/temp'
 raw_path = '/home/ndg/arc/reddit'
 
-years = ['2016', '2017', '2018']
+years = ['2017']
 
 all_files = []
 
@@ -25,14 +25,11 @@ for year in years:
     data_path = os.path.join(raw_path, year)
     files = sorted(os.listdir(data_path))
     files = [x for x in files if 'RC' in x]
-    if year == '2016':
-        files = [x for x in files if 'RC_2016-09' in x or 'RC_2016-10' in x or 'RC_2016-11' in x or 'RC_2016-12' in x]
-    #files = [os.path.join(data_path, x) for x in files]
     all_files.extend(files)
 
 num = len(all_files)
 
-sub_file = '/home/ndg/users/hsalee/PuckIt/resources/nhl_subs.txt'
+sub_file = '/home/ndg/users/hsalee/PuckIt/resources/large_sample.txt'
 with open(sub_file, 'r') as fin:
     all_subs = fin.readlines()
 all_subs = set([x.strip() for x in all_subs])
