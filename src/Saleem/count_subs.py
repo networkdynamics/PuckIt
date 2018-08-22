@@ -8,14 +8,13 @@ import time
 import json
 from numpy import median
 
-data_dir = '/home/ndg/projects/shared_datasets/PuckIt/FACITdata'
-
+data_dir = '/home/ndg/projects/shared_datasets/PuckIt/sample1/data'
 
 all_subs = os.listdir(data_dir)
 all_subs = sorted(all_subs, key=lambda s: s.lower())
 
-def get_about(file_name):
-    file_path = os.path.join(data_dir, file_name)
+def get_about(sub):
+    file_path = os.path.join(data_dir, sub, 'about.json')
     with open(file_path, 'r') as fp:
         content = json.load(fp)
     a = content['data']['subscribers']
@@ -24,18 +23,15 @@ def get_about(file_name):
     else:
         return 0
 
-defaults = '/home/ndg/users/hsalee/PuckIt/resources/default_subs.txt'
-
-with open(defaults, 'r') as fin:
-    all_defaults = fin.readlines()
-
-all_defaults = [x.strip() for x in all_defaults]
 
 sub_count = {}
 for sub in all_subs:
     sub_count[sub] = get_about(sub)
 
+for sub in all_subs:
+    print sub_count[sub]
 
+'''
 med = median(sub_count.values())
 
 subs = []
@@ -47,3 +43,4 @@ for sub in all_subs:
 
 for item in subs:
     print item
+'''

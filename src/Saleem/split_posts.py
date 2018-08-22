@@ -13,13 +13,13 @@ from pprint import pprint
 from datetime import datetime
 
 
-data_path = '/home/ndg/projects/shared_datasets/PuckIt/sample1/temp2'
-out_path = '/home/ndg/projects/shared_datasets/PuckIt/sample1/data'
+data_path = '/home/ndg/projects/shared_datasets/PuckIt/sample2/temp2'
+out_path = '/home/ndg/projects/shared_datasets/PuckIt/sample2/data'
 
 all_files = sorted(os.listdir(data_path))
 all_files = [os.path.join(data_path, x) for x in all_files]
 
-sub_file = '/home/ndg/users/hsalee/PuckIt/resources/small_sample.txt'
+sub_file = '/home/ndg/users/hsalee/PuckIt/resources/large_sample.txt'
 with open(sub_file, 'r') as fin:
     all_subs = fin.readlines()
 all_subs = [x.strip() for x in all_subs]

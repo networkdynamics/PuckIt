@@ -10,7 +10,7 @@ import json
 
 headers = {"User-Agent": "lets get these pages"}
 
-teampath = '/home/ndg/users/hsalee/PuckIt/resources/nhl_teams.txt'
+teampath = '/home/ndg/users/hsalee/PuckIt/resources/small_sample.txt'
 data_dir = '/home/ndg/projects/shared_datasets/PuckIt/data'
 
 
