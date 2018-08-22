@@ -1,5 +1,5 @@
 '''
-extract the subscriber count for each sub
+extract the moderator count for each sub
 '''
 
 
@@ -7,28 +7,36 @@ import os
 import time
 import requests
 import json
+import sys
 
-headers = {"User-Agent": "lets get these pages"}
+sample = sys.argv[1]
 
-teampath = '/home/ndg/users/hsalee/PuckIt/resources/small_sample.txt'
-data_dir = '/home/ndg/projects/shared_datasets/PuckIt/data'
+index = '2'
+if sample == 'small':
+    index = '1'
+
+sub_names = '/home/ndg/users/hsalee/PuckIt/resources/'+sample+'_sample.txt'
+data_dir = '/home/ndg/projects/shared_datasets/PuckIt/sample'+index+'/data'
 
 
-with open(teampath, 'r') as fin:
-    all_teams = fin.readlines()
-all_teams = [x.strip() for x in all_teams]
+with open(sub_names, 'r') as fin:
+    all_subs = fin.readlines()
+all_subs = [x.strip() for x in all_subs]
+all_subs = sorted(all_subs, key=lambda s: s.lower())
 
-def get_about(team_name):
-    team_dir = team_name.replace(" ", "_")
-    team_path = os.path.join(data_dir, team_dir)
+def get_mod_count(sub_name):
+    sub_path = os.path.join(data_dir, sub_name)
     file_name = 'moderators.json'
-    file_path = os.path.join(team_path, file_name)
-    with open(file_path, 'r') as fp:
-        content = json.load(fp)
-    print len(content['data']['children'])
+    file_path = os.path.join(sub_path, file_name)
+    try:
+        with open(file_path, 'r') as fp:
+            content = json.load(fp)
+            print len(content['data']['children'])
+    except IOError:
+        print 0
     return
 
 
 
-for team in all_teams:
-    get_about(team)
+for sub in all_subs:
+    get_mod_count(sub)
